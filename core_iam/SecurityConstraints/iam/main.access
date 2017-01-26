@@ -1,0 +1,10 @@
+[
+  {
+    "location":"/iam",
+    "roles":
+      [
+        {"role":"Operator"}
+      ]
+  }
+]
+
