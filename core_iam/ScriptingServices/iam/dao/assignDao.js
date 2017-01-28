@@ -2,6 +2,8 @@
 /* eslint-env node, dirigible */
 
 var database = require('db/database');
+var user = require('net/http/user');
+
 var datasource = database.getDatasource();
 
 // Create an entity
@@ -16,13 +18,8 @@ exports.create = function(entity) {
         statement.setString(++i, entity.assign_username);
         statement.setString(++i, entity.assign_rolename);
         statement.setShort(++i, entity.assign_state);
-        if (entity.assign_created_at !== null) {
-            var js_date_assign_created_at =  new Date(Date.parse(entity.assign_created_at));
-            statement.setTimestamp(++i, js_date_assign_created_at);
-        } else {
-            statement.setTimestamp(++i, null);
-        }
-        statement.setString(++i, entity.assign_created_by);
+        statement.setTimestamp(++i, new Date());
+        statement.setString(++i, user.getName());
         statement.executeUpdate();
     	return id;
     } finally {
@@ -83,19 +80,12 @@ exports.list = function(limit, offset, sort, desc) {
 exports.update = function(entity) {
     var connection = datasource.getConnection();
     try {
-        var sql = 'UPDATE IAM_ASSIGN SET ASSIGN_USERNAME = ?,ASSIGN_ROLENAME = ?,ASSIGN_STATE = ?,ASSIGN_CREATED_AT = ?,ASSIGN_CREATED_BY = ? WHERE ASSIGN_ID = ?';
+        var sql = 'UPDATE IAM_ASSIGN SET ASSIGN_USERNAME = ?,ASSIGN_ROLENAME = ?,ASSIGN_STATE = ? WHERE ASSIGN_ID = ?';
         var statement = connection.prepareStatement(sql);
         var i = 0;
         statement.setString(++i, entity.assign_username);
         statement.setString(++i, entity.assign_rolename);
         statement.setShort(++i, entity.assign_state);
-        if (entity.assign_created_at !== null) {
-            var js_date_assign_created_at =  new Date(Date.parse(entity.assign_created_at));
-            statement.setTimestamp(++i, js_date_assign_created_at);
-        } else {
-            statement.setTimestamp(++i, null);
-        }
-        statement.setString(++i, entity.assign_created_by);
         var id = entity.assign_id;
         statement.setInt(++i, id);
         statement.executeUpdate();

@@ -2,6 +2,8 @@
 /* eslint-env node, dirigible */
 
 var database = require('db/database');
+var user = require('net/http/user');
+
 var datasource = database.getDatasource();
 
 // Create an entity
@@ -15,13 +17,8 @@ exports.create = function(entity) {
         statement.setInt(++i, id);
         statement.setString(++i, entity.role_rolename);
         statement.setString(++i, entity.role_description);
-        if (entity.role_created_at !== null) {
-            var js_date_role_created_at =  new Date(Date.parse(entity.role_created_at));
-            statement.setTimestamp(++i, js_date_role_created_at);
-        } else {
-            statement.setTimestamp(++i, null);
-        }
-        statement.setString(++i, entity.role_created_by);
+        statement.setTimestamp(++i, new Date());
+        statement.setString(++i, user.getName());
         statement.executeUpdate();
     	return id;
     } finally {
@@ -82,18 +79,11 @@ exports.list = function(limit, offset, sort, desc) {
 exports.update = function(entity) {
     var connection = datasource.getConnection();
     try {
-        var sql = 'UPDATE IAM_ROLES SET ROLE_ROLENAME = ?,ROLE_DESCRIPTION = ?,ROLE_CREATED_AT = ?,ROLE_CREATED_BY = ? WHERE ROLE_ID = ?';
+        var sql = 'UPDATE IAM_ROLES SET ROLE_ROLENAME = ?,ROLE_DESCRIPTION = ? WHERE ROLE_ID = ?';
         var statement = connection.prepareStatement(sql);
         var i = 0;
         statement.setString(++i, entity.role_rolename);
         statement.setString(++i, entity.role_description);
-        if (entity.role_created_at !== null) {
-            var js_date_role_created_at =  new Date(Date.parse(entity.role_created_at));
-            statement.setTimestamp(++i, js_date_role_created_at);
-        } else {
-            statement.setTimestamp(++i, null);
-        }
-        statement.setString(++i, entity.role_created_by);
         var id = entity.role_id;
         statement.setInt(++i, id);
         statement.executeUpdate();
