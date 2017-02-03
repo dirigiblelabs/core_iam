@@ -6,7 +6,7 @@ const HTML_LINK = "../profile/update.html";
 
 exports.getHomeItem = function() {
 	return {
-      "image": "id-card-o ",
+      "image": "id-card-o",
       "color": "yellow",
       "path": PATH,
       "link": HTML_LINK,

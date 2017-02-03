@@ -6,7 +6,7 @@ const HTML_LINK = "users.html";
 
 exports.getHomeItem = function() {
 	return {
-      "image": "user",
+      "image": "users",
       "color": "blue",
       "path": PATH,
       "link": HTML_LINK,

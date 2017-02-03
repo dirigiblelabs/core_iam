@@ -6,7 +6,7 @@ const HTML_LINK = "roles.html";
 
 exports.getHomeItem = function() {
 	return {
-      "image": "role",
+      "image": "key",
       "color": "green",
       "path": PATH,
       "link": HTML_LINK,
