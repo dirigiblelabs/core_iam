@@ -58,7 +58,7 @@
 					<tr class="selected-{{entry._selected_}}" ng-repeat="entry in data"
 						ng-click="showInfoForEntry(entry)">
 						<td>{{entry.user_id}}</td>
-						<td><img src="../../js/profile/avatar.js/{{entry.user_username}}" width="48px"></img></td>
+						<td><img src="../../js/profile/avatar.js/{{entry.user_username}}" width="24px"></img></td>
 						<td>{{entry.user_username}}</td>
 						<td>{{entry.user_firstname}}</td>
 						<td>{{entry.user_lastname}}</td>
@@ -138,6 +138,14 @@
 							ng-readonly="operation == 'show'" required="required">
 					  </div>
 				  </div>
+				</div>
+				
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				 		   <div style="margin-top: 30px">
+						     <img ng-show="selectedEntry" src="../../js/profile/avatar.js/{{selectedEntry.user_username}}" width="48px"></img>
+				           <div>
+		       		</div>
 				</div>
 				
 				
