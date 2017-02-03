@@ -40,8 +40,6 @@ function handlePost(){
 	response.println(JSON.stringify(result));
 }
 
-
-
 function handleGet(){
 	var pathPrefix = "/profile/avatar.js/";
 	var userName = xss.escapeSql(request.getInfo().pathInfo);
@@ -58,17 +56,11 @@ function handleGet(){
 		response.writeStream(contentStream.getStream());
 	} catch(e) {
 		// asuming the avatar does not exist
-console.log('asdsafsadfsa: ');
 		var defaultAvatar = repository.getResource("/db/dirigible/registry/public/WebContent/profile/default.png");
 		response.setContentType("image/png");
 		response.writeOutput(defaultAvatar.getContent());
 		response.flush();
 	}
-}
-
-
-function unescapePath(path){
-	return path.replace(/\\/g, '');
 }
 
 function printError(httpCode, errCode, errMessage, errContext) {
@@ -95,3 +87,7 @@ function checkFolder(path) {
 		folderLib.createFolder(upper, name);
 	}
 }
+
+exports.handleGet = function() {
+	return handleGet();
+};
