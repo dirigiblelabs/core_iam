@@ -10,7 +10,7 @@ var datasource = database.getDatasource();
 exports.create = function(entity) {
     var connection = datasource.getConnection();
     try {
-        var sql = 'INSERT INTO IAM_USERS (USER_ID,USER_USERNAME,USER_PASSWORD,USER_FIRSTNAME,USER_LASTNAME,USER_CREATED_AT,USER_CREATED_BY) VALUES (?,?,?,?,?,?,?,?)';
+        var sql = 'INSERT INTO IAM_USERS (USER_ID,USER_USERNAME,USER_PASSWORD,USER_FIRSTNAME,USER_LASTNAME,USER_CREATED_AT,USER_CREATED_BY) VALUES (?,?,?,?,?,?,?)';
         var statement = connection.prepareStatement(sql);
         var i = 0;
         var id = datasource.getSequence('IAM_USERS_USER_ID').next();
