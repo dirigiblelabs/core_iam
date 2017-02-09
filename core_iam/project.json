@@ -1,1 +1,15 @@
-{"guid":"core_iam","repository":{"type":"git","branch":"master","url":"https://github.com/dirigiblelabs/core_iam.git"}}
+{
+    "guid":"core_iam",
+    "repository": {
+        "type":"git",
+        "branch":"master",
+        "url":"https://github.com/dirigiblelabs/core_iam.git"
+    },
+    "dependencies": [
+    {
+        "guid":"docs_explorer",
+        "type": "git",
+        "url": "https://github.com/dirigiblelabs/docs_explorer.git",
+        "branch":"master"
+    }]
+}
