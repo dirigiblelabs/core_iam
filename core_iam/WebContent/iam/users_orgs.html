@@ -7,7 +7,8 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
-	<title>Assignments</title>
+	<title>Users in Organizations</title>
+	
 	
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -16,12 +17,11 @@
 	<link rel="stylesheet" href="/services/web/resources/css/forms.css">
 	<script src="/services/web/resources/themes/theme.js"></script>
 </head>
-<body>
-
+<body style="margin-left: 20px">
 	<div id="wrap" ng-controller="ManageController">
 		<div class="row">
 			<div class="col-lg-12">
-		    	<h1 class="page-header">Assignments</h1>
+		    	<h1 class="page-header">Users in Organizations</h1>
 			</div>
 		</div>
 		<div class="container">
@@ -32,10 +32,8 @@
 					<tr>
 						<th>#</th>
 						<th>Username</th>
-						<th>Role Name</th>
-						<th>State</th>
-						<th>Created At</th>
-						<th>Created By</th>
+						<th>Organization</th>
+						<th>Position</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,10 +41,8 @@
 						ng-click="showInfoForEntry(entry)">
 						<td>{{entry.id}}</td>
 						<td>{{entry.username}}</td>
-						<td>{{entry.rolename}}</td>
-						<td>{{entry.state}}</td>
-						<td>{{entry.createdAt}}</td>
-						<td>{{entry.createdBy}}</td>
+						<td>{{entry.org_name}}</td>
+						<td>{{entry.position_name}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -84,23 +80,26 @@
 						ng-model="selectedEntry.username"
 						ng-readonly="operation == 'show'" required="required">
 					<div>
-						<select class="form-control" ng-model="selectedEntry.username" ng-options="option.user_username as option.user_username for option in users" ng-disabled="operation == 'show'" required="required"></select>	
+						<select class="form-control" ng-model="selectedEntry.username" ng-options="option.username as option.username for option in users" ng-disabled="operation == 'show'" required="required"></select>	
 					</div>
 				  </div>
 				  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-					<label>Role Name</label>
+					<label>Organization</label>
 					<input type="hidden" class="form-control" 
-						ng-model="selectedEntry.rolename"
+						ng-model="selectedEntry.org_id"
 						ng-readonly="operation == 'show'" required="required">
 					<div>
-						<select class="form-control" ng-model="selectedEntry.rolename" ng-options="option.role_rolename as option.role_rolename for option in roles" ng-disabled="operation == 'show'" required="required"></select>	
+						<select class="form-control" ng-model="selectedEntry.org_id" ng-options="option.id as option.name for option in orgs" ng-disabled="operation == 'show'" required="required"></select>	
 					</div>
 				  </div>
 				  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-					<label>State</label>
-					<input type="number" class="form-control text-right" pattern="\d*" step="1"
-						ng-model="selectedEntry.state"
+					<label>Position</label>
+					<input type="hidden" class="form-control" 
+						ng-model="selectedEntry.position_id"
 						ng-readonly="operation == 'show'" required="required">
+					<div>
+						<select class="form-control" ng-model="selectedEntry.position_id" ng-options="option.id as option.name for option in positions" ng-disabled="operation == 'show'" required="required"></select>	
+					</div>
 				  </div>
 				</div>
 				
@@ -125,24 +124,31 @@
 		angular.module('page', ['ngAnimate', 'ui.bootstrap']);
 		angular.module('page').controller('ManageController', function ($scope, $http) {
 			
-			var url = '../../js-secured/iam/assign.js';
+			var url = '../../js-secured/iam/users_orgs.js';
+			var urlList = '../../js-secured/iam/users_orgs_list.js';
 
-			$http.get(url)
+			$http.get(urlList)
 				.success(function(data){
 					$scope.data = data;
 				});
 			
 			
-			var urlUsers = '../../js-secured/iam/users.js';
+			var urlUsers = '../../js-secured/iam/users.js'; 
 			$http.get(urlUsers)
 				.success(function(users){
 					$scope.users = users;
 				});
 				
-			var urlRoles = '../../js-secured/iam/roles.js';
-			$http.get(urlRoles)
-				.success(function(roles){
-					$scope.roles = roles;
+			var urlOrgs = '../../js-secured/iam/organizations.js'; 
+			$http.get(urlOrgs)
+				.success(function(orgs){
+					$scope.orgs = orgs;
+				});
+				
+			var urlPositions = '../../js-secured/iam/positions.js'; 
+			$http.get(urlPositions)
+				.success(function(positions){
+					$scope.positions = positions;
 				});
 			
 			$scope.selectedEntry;
@@ -274,7 +280,7 @@
 			}
                     
 			function refreshData(){
-				$http.get(url)
+				$http.get(urlList)
 				.success(function(data){
 					$scope.data = data;
                     $scope.selectedEntry = null;
@@ -326,9 +332,6 @@
 		});
 		
 	</script>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	
 </body>
 </html>
